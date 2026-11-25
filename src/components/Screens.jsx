@@ -179,15 +179,16 @@ const QuizCard = styled(Card)`
 
 const TempoMeta = styled.div`
   display: flex; gap: 14px; justify-content: center; align-items: baseline; flex-wrap: wrap;
-  font-size: 17px; margin-top: 8px;
+  font-size: 17px; margin-top: 24px;
   b { font-weight: 700; }
-  ${media.imac} { font-size: 22px; gap: 18px; }
+  ${media.imac} { font-size: 22px; gap: 18px; margin-top: 32px; }
 `;
 
 const TempoDesc = styled.p`
-  font-size: clamp(15px, 1.15vw, 17px); line-height: 1.7; max-width: 34em; margin: 18px auto 28px;
+  font-size: clamp(15px, 1.15vw, 17px); line-height: 1.7; max-width: 44em; margin: 30px auto 44px;
   color: #333; text-wrap: pretty;
-  ${media.imac} { font-size: 21px; margin: 24px auto 36px; }
+  white-space: pre-line; /* tempos.js 설명의 \n을 줄바꿈으로 */
+  ${media.imac} { font-size: 21px; margin: 40px auto 56px; }
 `;
 
 const ResultCard = styled(Card)`
