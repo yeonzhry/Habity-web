@@ -65,14 +65,17 @@ export const pickSong = () => {
 // 그 날(1일 = 첫 음)에 해당하는 [음, 박자], 곡이 끝난 뒤면 null
 export const songNote = (song, d) => SONGS[song]?.[d.getDate() - 1] ?? null;
 
-// 지난 날들은 예시 기록: 음은 곡을 따라가고, 다 했는지(색)만 날마다 다름
+// 지난 날들은 예시 기록: 음은 곡을 따라감
+// 앱 규칙: 도는 검정(일부만 함), 도가 아닌 음은 연두(다 함)
 // done = 그날 체크한 습관 수 (3개 중)
 export function pastMark(d, tempo, song) {
   const n = songNote(song, d);
   if (!n) return { type: "rest", done: 0 };
-  const h = hash(keyOf(d) + tempo);
-  // >>> (부호 없는 시프트): >>를 쓰면 음수가 나옴
-  if (h % 10 < 3) return { type: "note", pitch: n[0], style: "Less", done: 1 + ((h >>> 4) % 2) };
+  if (n[0] === 0) {
+    const h = hash(keyOf(d) + tempo);
+    // >>> (부호 없는 시프트): >>를 쓰면 음수가 나옴
+    return { type: "note", pitch: 0, style: "Less", done: 1 + ((h >>> 4) % 2) };
+  }
   return { type: "note", pitch: n[0], style: "Whole", done: 3 };
 }
 

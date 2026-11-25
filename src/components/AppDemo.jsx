@@ -44,7 +44,7 @@ export default function AppDemo({ tempo, onRestart, onActivity }) {
     if (d < today) return pastMark(d, tempo, song);
     if (doneCount === 0) return null;
     if (allDone) return { type: "note", pitch: todayPitch ?? todaySong, style: "Whole" };
-    return { type: "note", pitch: todaySong, style: "Less" };
+    return { type: "note", pitch: 0, style: "Less" }; // 일부만 했으면 검정 도
   }
 
   function showToast(msg) {
@@ -70,7 +70,7 @@ export default function AppDemo({ tempo, onRestart, onActivity }) {
     const dates = (id === "week" ? weekDates(today) : monthWeeks(today).flat()).filter((d) => d && d <= today);
     const beat = (60 / rec.bpm) * 0.75;
     setPlaying(id);
-    // 곡의 박자대로 (긴 음은 그만큼 기다렸다가 다음 날로)
+    // 하루 = 한 박 (고정 박자)
     let t = 0;
     dates.forEach((d) => {
       timers.current.push(setTimeout(() => {
@@ -79,7 +79,7 @@ export default function AppDemo({ tempo, onRestart, onActivity }) {
         tone(m?.type === "note" ? m.pitch : null);
         onActivity();
       }, t * 1000));
-      t += (songNote(song, d)?.[1] ?? 1) * beat;
+      t += beat;
     });
     timers.current.push(setTimeout(() => {
       stopMelody();
